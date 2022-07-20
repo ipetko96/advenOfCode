@@ -12,8 +12,8 @@ with open("2016\\day01\\input", "r") as file:
             turtle.lt(90)
         turtle.fd(int(ins[1:]))
 
-    turtle.update()
-    end = list(turtle.position())
-    print(abs(round(end[0])) + abs(round(end[1])))
+    end = [abs(round(number)) for number in turtle.position()]
+    print(sum(end))
+    turtle.write(sum(end), font=("", 50, "normal"))
 
 turtle.mainloop()
