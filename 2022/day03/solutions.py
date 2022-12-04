@@ -2,7 +2,7 @@ from difflib import SequenceMatcher
 
 # part 1
 count = 0
-with open("2022\\day02\\input", "r") as file:
+with open("2022\\day03\\input", "r") as file:
     for line in file:
         line = line.strip()
         a, b = line[:len(line) // 2], line[len(line) // 2:]
@@ -18,7 +18,7 @@ print(count)
 # part 2
 rucksacks = []
 count = 0
-with open("2022\\day02\\input", "r") as file:
+with open("2022\\day03\\input", "r") as file:
     for line in file:
         rucksacks.append(line.strip())
 
