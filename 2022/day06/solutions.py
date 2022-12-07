@@ -3,10 +3,7 @@ with open("2022\\day06\\input", "r") as file:
 
 
 def find_index(count: int) -> int:
-    index = 0
-    while len(set(stream[index:index + count])) != count:
-        index += 1
-    return index + count
+    return [i + count for i in range(len(stream)) if len(set(stream[i:i + count])) == count][0]
 
 
 # part 1
