@@ -9,16 +9,14 @@ def check_visibility(x: int, y: int) -> bool:
 
 def check_cover(x: int, y: int) -> bool:
     score = 1
-    strany = [stromy[x][y + 1:], "".join([row[y] for row in stromy][x + 1:]), stromy[x][:y][::-1], "".join([row[y] for row in stromy][:x][::-1])]
+    strany = [stromy[x][y + 1:], "".join([row[y] for row in stromy][x + 1:]), stromy[x][y - 1::-1], "".join([row[y] for row in stromy][x - 1::-1])]
     for i in strany:
         count = 0
         for j in i:
             if int(stromy[x][y]) > int(j):
                 count += 1
-            elif int(stromy[x][y]) <= int(j):
-                count += 1
-                break
             else:
+                count += 1
                 break
         score *= count
     return score
