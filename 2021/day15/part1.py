@@ -3,7 +3,7 @@ table = []
 unvisited = []
 bigNumber = 999
 
-with open("2021\\day15\\tinput", "r") as file:
+with open("2021/day15/tinput", "r") as file:
     for line in file:
         board.append(list(line.strip()))
 
@@ -24,7 +24,7 @@ for i in range(len(board)):
 print()
 
 
-def get_horizontal_and_vertical_neighbours(arr, x, y):
+def get_neighbours(arr, x, y):
     """
     This method takes 2d array and return list of all elements
     with all horizontal and vertical neighbours
@@ -63,28 +63,24 @@ def get_horizontal_and_vertical_neighbours(arr, x, y):
             }
         ]
 
-    neighbors.append(
-        {
-            "index": x * len(arr[x]) + j,
-            "value": value,
-            "neighbors": neighbors,
-            "shortestPath": 999,
-        }
-    )
+    # neighbors.append(
+    #     {
+    #         "index": x * len(arr[x]) + j,
+    #         "value": value,
+    #         "neighbors": neighbors,
+    #         "shortestPath": 999,
+    #     }
+    # )
 
     return neighbors
 
 
-while len(unvisited) != 0:
-    currenVertex = unvisited[0]
-    for neighbor in get_horizontal_and_vertical_neighbours(
+while len(unvisited) != 0:  # iterate through unvisited nodes until empty
+    currenVertex = unvisited[0]  # set first node as current
+    neighbors = get_neighbours(
         board, currenVertex[1], currenVertex[0]
-    ):
-        print(neighbor)
-    unvisited.remove(currenVertex)
-
-    # for i in range(len(board)):
-    #     for j, value in enumerate(board[i]):
-    #         for neighbor in get_horizontal_and_vertical_neighbours(board, i, j):
-    #             if neighbor <= bigNumber:
-    #                 rules.append({"asd": 123})
+    )  # get surounding neghbors for current node
+    print(neighbors)
+    for neighbor in neighbors:  # iterate through neigbors
+        pass
+    unvisited.remove(currenVertex)  # remove current node from unvisited
