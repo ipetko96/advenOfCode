@@ -1,5 +1,5 @@
 board = []
-table = []
+table = {}
 unvisited = []
 bigNumber = 999
 
@@ -10,77 +10,54 @@ with open("2021/day15/tinput", "r") as file:
 for i in range(len(board)):
     for j, value in enumerate(board[i]):
         if i == 0 and j == 0:
-            table.append({"vertex": [i, j], "shortest": 0, "previous": ""})
+            table.update({(i, j): [int(board[i][j]), 0, None]})
         else:
-            table.append(
-                {
-                    "vertex": [i, j],
-                    "value": board[i][j],
-                    "shortest": bigNumber,
-                    "previous": [],
-                }
-            )
-        unvisited.append([i, j])
-print()
+            table.update({(i, j): [int(board[i][j]), bigNumber, None]})
+        unvisited.append((i, j))
 
 
-def get_neighbours(arr, x, y):
-    """
-    This method takes 2d array and return list of all elements
-    with all horizontal and vertical neighbours
-    :param arr: 2d array
-    :return: list of array elements with neighbours
-    """
+def get_neighbors(arr, x, y):
     neighbors = []
 
     if y == 0 or y == len(arr) - 1 or x == 0 or x == len(arr[y]) - 1:
         # corners
+        # fmt: off
         if y != 0:
-            neighbors.append(
-                {"vertex": [y - 1, x], "value": arr[y - 1][x]}
-            )  # top neighbor
+            neighbors.append((y - 1, x))  # top neighbor
         if x != len(arr[y]) - 1:
-            neighbors.append(
-                {"vertex": [y, x + 1], "value": arr[y][x + 1]}
-            )  # right neighbor
+            neighbors.append((y, x + 1))  # right neighbor
         if y != len(arr) - 1:
-            neighbors.append(
-                {"vertex": [y + 1, x], "value": arr[y + 1][x]}
-            )  # bottom neighbor
+            neighbors.append((y + 1, x))  # bottom neighbor
         if x != 0:
-            neighbors.append(
-                {"vertex": [y, x - 1], "value": arr[y][x - 1]}
-            )  # left neighbor
+            neighbors.append((y, x - 1))  # left neighbor
+        # fmt: on
 
     else:
-        # add neighbors
-        neighbors = [
-            {
-                arr[y - 1][x],  # top neighbor
-                arr[y][x + 1],  # right neighbor
-                arr[y + 1][x],  # bottom neighbor
-                arr[y][x - 1],  # left neighbor
-            }
-        ]
-
-    # neighbors.append(
-    #     {
-    #         "index": x * len(arr[x]) + j,
-    #         "value": value,
-    #         "neighbors": neighbors,
-    #         "shortestPath": 999,
-    #     }
-    # )
+        # all four neighbors
+        neighbors.extend(
+            [
+                (y - 1, x),  # top neighbor
+                (y, x + 1),  # right neighbor
+                (y + 1, x),  # bottom neighbor
+                (y, x - 1),  # left neighbor
+            ]
+        )
 
     return neighbors
 
 
-while len(unvisited) != 0:  # iterate through unvisited nodes until empty
-    currenVertex = unvisited[0]  # set first node as current
-    neighbors = get_neighbours(
-        board, currenVertex[1], currenVertex[0]
-    )  # get surounding neghbors for current node
-    print(neighbors)
-    for neighbor in neighbors:  # iterate through neigbors
-        pass
-    unvisited.remove(currenVertex)  # remove current node from unvisited
+# fmt: off
+while len(unvisited) != 0:  # repeat until unvisited is empty
+    current_node = unvisited[0]  # set first node as current
+    neighbors = get_neighbors(board, current_node[1], current_node[0])  # get surounding neighbors for current node
+
+    for neighbor in neighbors:  # iterate through neighbors
+        if neighbor not in unvisited:  # check if node was already visited
+            continue
+        new_distance = table[current_node][1] + table[neighbor][0]  # calculate new_distance for the neighbor
+        if new_distance < table[neighbor][1]:  # check if the new_distance is shorter then currently known distance in neighbor
+            table[neighbor][1] = new_distance  # replace current distance for neighbor with new_distance
+            table[neighbor][2] = current_node  # replace previous closest node for neighbr with current node
+    unvisited.remove(current_node)  # remove current node from unvisited
+print(list(table.values())[-1][1])  # print shortest path length from top-left to bottom-right
+# fmt: on
