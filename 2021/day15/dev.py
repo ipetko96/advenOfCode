@@ -1,14 +1,15 @@
-board=[[1,2],[3,4]]
-for y in range(5):
-    for _ in range(4):
-        if board[y][-1] == 9:
-            board[y].append(1)
-        else:
-            board[y].append(board[y][-1]+1)
-    if len(board)+1==6:
-        break
-    if board[y][0] == 9:
-        board.append([1])
-    else:
-        board.append([board[y][0]+1])
+board=[]
+with open("2021/day15/tinput", "r") as file:
+    for line in file:
+        board.append(list(line.strip()))
+
+for i in range(len(board)):
+    size=len(board[i])
+    for k in range(4):
+        for j in range(size):
+            board[i].append(board[i][j+k*len(board)]%9+1)
+
+for i in range(len(board)*4):
+    board.append([k%9+1 for k in board[i]])
+
 print(board)
