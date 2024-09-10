@@ -27,6 +27,7 @@ def get_neighbors(arr, x, y):
 
     return neighbors
 
+
 board = []
 table = {}
 unvisited = []
@@ -38,14 +39,14 @@ with open("2021/day15/tinput", "r") as file:
 
 # tile board horizontaly
 for i in range(len(board)):
-    size=len(board[i])
+    size = len(board[i])
     for k in range(4):
         for j in range(size):
-            board[i].append(board[i][j+k*len(board)]%9+1)
+            board[i].append(board[i][j + k * len(board)] % 9 + 1)
 
 # tile board verticaly
-for i in range(len(board)*4):
-    board.append([k%9+1 for k in board[i]])
+for i in range(len(board) * 4):
+    board.append([k % 9 + 1 for k in board[i]])
 
 # generate table and unvisited
 for i in range(len(board)):
